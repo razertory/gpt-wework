@@ -34,24 +34,18 @@ func Ask(question string) (string, error) {
 }
 
 func (c *ChatGPT) Chat(question string) (answer string, err error) {
-	q := question + stop
-	req := gogpt.CompletionRequest{
-		Model:            gogpt.GPT3TextDavinci003,
-		MaxTokens:        1200,
-		Prompt:           q,
-		Temperature:      0,
-		TopP:             0.99,
-		N:                1,
-		Stop:             []string{stop},
-		FrequencyPenalty: 0,
-		PresencePenalty:  0.5,
-		User:             c.userId,
+	var msg = gogpt.ChatCompletionMessage{}
+	msg.Content = question
+	msg.Role = "system"
+	req := gogpt.ChatCompletionRequest{
+		Model:    gogpt.GPT3Dot5Turbo,
+		Messages: []gogpt.ChatCompletionMessage{msg},
 	}
-	resp, err := c.client.CreateCompletion(c.ctx, req)
+	resp, err := c.client.CreateChatCompletion(c.ctx, req)
 	if err != nil {
 		return "", err
 	}
-	answer = resp.Choices[0].Text
+	answer = resp.Choices[0].Message.Content
 	for len(answer) > 0 {
 		if answer[0] == '\n' {
 			answer = answer[1:]
@@ -59,7 +53,7 @@ func (c *ChatGPT) Chat(question string) (answer string, err error) {
 			break
 		}
 	}
-	return resp.Choices[0].Text, err
+	return answer, err
 }
 
 func NewGPT(ApiKey, UserId string) *ChatGPT {

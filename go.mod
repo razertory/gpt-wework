@@ -6,7 +6,7 @@ require (
 	github.com/gin-contrib/cors v1.4.0
 	github.com/gin-gonic/gin v1.8.1
 	github.com/go-telegram-bot-api/telegram-bot-api/v5 v5.5.1
-	github.com/sashabaranov/go-gpt3 v0.0.0-20221202105456-0f9f4aa343ad
+	github.com/sashabaranov/go-gpt3 v1.3.0
 )
 
 require (
