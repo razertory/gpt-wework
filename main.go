@@ -11,6 +11,7 @@ func main() {
 	r.GET("/ping", Ping)
 	r.GET("/wechat/check", service.CheckWeixinSign)
 	r.POST("/wechat/check", service.TalkWeixin)
+	r.POST("/chat", service.Chat)
 	r.Run(":8888")
 }
 

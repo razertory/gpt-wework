@@ -1,7 +1,6 @@
 package service
 
 import (
-	"crypto/md5"
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
@@ -31,6 +30,9 @@ var retryCache = cache.New(60*time.Minute, 10*time.Minute)
 
 // 企业微信 token 缓存，请求频次过高可能有一些额外的问题
 var tokenCache = cache.New(5*time.Minute, 5*time.Minute)
+
+// 上下文对话能力，默认是 3, 可以根据需要修改对话长度
+var weworkConversationSize = 3
 
 type WeixinUserAskMsg struct {
 	ToUserName string `xml:"ToUserName"`
@@ -109,6 +111,10 @@ func TalkWeixin(c *gin.Context) {
 		c.JSON(500, "ok")
 		return
 	}
+	if isRetry(verifyMsgSign) {
+		c.JSON(200, "ok")
+		return
+	}
 	go handleMsgRet(msgRet)
 	c.JSON(200, "ok")
 }
@@ -142,10 +148,7 @@ func handleMsgRet(msgRet MsgRet) {
 	if content == "" {
 		return
 	}
-	if isRetry(userId, content) {
-		return
-	}
-	ret, err := Ask(content)
+	ret, err := AskOnConversation(content, userId, weworkConversationSize)
 	if err != nil {
 		TalkToUser(userId, kfId, content, "服务器火爆")
 		return
@@ -153,11 +156,9 @@ func handleMsgRet(msgRet MsgRet) {
 	TalkToUser(userId, kfId, content, ret)
 }
 
-func isRetry(userId, content string) bool {
-	data := md5.Sum([]byte(content))
-	s := string(data[:])
-	var base = "retry:user_id:%s:content:%s"
-	key := fmt.Sprintf(base, userId, s)
+func isRetry(signature string) bool {
+	var base = "retry:signature:%s"
+	key := fmt.Sprintf(base, signature)
 	_, found := retryCache.Get(key)
 	if found {
 		return true
