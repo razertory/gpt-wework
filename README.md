@@ -31,8 +31,8 @@
 
 ## 操作流程
 
-#### 1.登陆（注册）你的 OpenAI 账号，拿到对应的 key 和 orgId
-这俩参数会用到 [gpt.go](./service/gpt.go) 当中
+#### 1.登陆（注册）你的 OpenAI 账号，拿到对应的 key
+参数会用到 [gpt.go](./service/gpt.go) 当中
 
 #### 2.注册并登陆企业微信后台
 应用管理 - 微信客服
