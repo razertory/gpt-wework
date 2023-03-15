@@ -55,6 +55,9 @@ var corpid = "corpid"
 
 // 企业微信secret 这个参数需要通过企业微信app发送
 var corpsecret = "corpsecret"
+
+// 上下文对话能力，默认是 3, 可以根据需要修改对话长度
+var weworkConversationSize = 3
 ```
 注意，只有这些参数和企业微信`接收事件服务器`一致的时候，才能验证通过。代码中的 corpsecret 一定是通过企业微信获得的，首次获取一定是`企业微信app发送`
 ![](https://raw.githubusercontent.com/razertory/statics/main/staic/4.png)
