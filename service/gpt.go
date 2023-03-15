@@ -11,7 +11,7 @@ import (
 )
 
 // openai key
-var apiKey = "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"
+var apiKey = ""
 
 // 这是一个可以自定义的 id，用默认值不会有问题
 var userId = "orgId"
