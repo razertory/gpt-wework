@@ -2,12 +2,17 @@ package main
 
 import (
 	"gpt-wework/service"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		panic("Error loading .env file")
+	}
 	r := gin.Default()
 	r.GET("/ping", Ping)
 	r.GET("/wechat/check", service.CheckWeixinSign)
@@ -17,9 +22,5 @@ func main() {
 }
 
 func Ping(c *gin.Context) {
-	err := godotenv.Load()
-	if err != nil {
-		panic("Error loading .env file")
-	}
-	c.Data(500, "text/plain;charset=utf-8", []byte("ff"))
+	c.Data(200, "text/plain;charset=utf-8", []byte(os.Getenv("WEWORK_CORP_ID")))
 }
