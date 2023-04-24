@@ -2,6 +2,7 @@ package main
 
 import (
 	"gpt-wework/service"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -21,5 +22,5 @@ func main() {
 }
 
 func Ping(c *gin.Context) {
-	c.Data(500, "text/plain;charset=utf-8", []byte("ff"))
+	c.Data(200, "text/plain;charset=utf-8", []byte(os.Getenv("WEWORK_CORP_ID")))
 }
