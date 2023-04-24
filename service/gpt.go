@@ -10,12 +10,6 @@ import (
 	gogpt "github.com/sashabaranov/go-gpt3"
 )
 
-// openai key
-var apiKey = ""
-
-// 这是一个可以自定义的 id，用默认值不会有问题
-var userId = "orgId"
-
 // 企业微信 token 缓存，请求频次过高可能有一些额外的问题
 var conversationCache = cache.New(5*time.Minute, 5*time.Minute)
 
@@ -54,8 +48,7 @@ func AskOnConversation(question, conversationId string, size int) (string, error
 	}
 	messages = messages[len(messages)-pivot:]
 	conversationCache.Set(key, messages, 12*time.Hour)
-	k, userId := apiKey, userId
-	chat := NewGPT(k, userId)
+	chat := NewGPT(openAiKey, conversationId)
 	defer chat.Close()
 	answer, err := chat.Chat(messages)
 	if err != nil {
