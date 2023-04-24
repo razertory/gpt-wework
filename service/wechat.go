@@ -10,29 +10,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/patrickmn/go-cache"
 )
-
-// 验证企业微信回调的token
-var token = "token"
-
-// 验证企业微信回调的key
-var encodingAesKey = "encodingAesKey"
-
-// 企业微信企业id
-var corpid = "corpid"
-
-// 企业微信secret
-var corpsecret = "corpsecret"
-
-// 企业微信的重试缓存，如果服务器延迟低，可以去掉该变量以及 isRetry 逻辑
-var retryCache = cache.New(60*time.Minute, 10*time.Minute)
-
-// 企业微信 token 缓存，请求频次过高可能有一些额外的问题
-var tokenCache = cache.New(5*time.Minute, 5*time.Minute)
-
-// 上下文对话能力，默认是 3, 可以根据需要修改对话长度
-var weworkConversationSize = 3
 
 type WeixinUserAskMsg struct {
 	ToUserName string `xml:"ToUserName"`

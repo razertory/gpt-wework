@@ -4,6 +4,7 @@ import (
 	"gpt-wework/service"
 
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 func main() {
@@ -16,5 +17,9 @@ func main() {
 }
 
 func Ping(c *gin.Context) {
+	err := godotenv.Load()
+	if err != nil {
+		panic("Error loading .env file")
+	}
 	c.Data(500, "text/plain;charset=utf-8", []byte("ff"))
 }

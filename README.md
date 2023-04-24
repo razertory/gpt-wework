@@ -31,6 +31,33 @@
 
 ## 操作流程
 
+
+#### 0.代码说明
+*接口*
+```
+GET    /ping                     服务健康检查
+GET    /wechat/check             企业微信服务器验证地址，在企业微信后台配置 域名+/wechat/check
+POST   /wechat/check             企业微信服务器事件推送地址地址
+POST   /chat                     OpenAI 聊天接口，用于测试
+```
+
+*配置文件*
+参考 `.env.example` 文件，创建一个 .env 文件。服务启动的时候会 load `.env`, 如果不存在会 panic！
+
+参数含义
+```
+# 验证企业微信回调的token
+WEWORK_TOKEN=token
+# 验证企业微信回调的key
+WEWORK_ENCODING_AEK_KEY=encodingAesKey
+# 企业微信企业id
+WEWORK_CORP_ID=corpid
+# 企业微信secret
+WEWORK_CROP_SECRET=corpsecret
+# openai key
+OPENAI_KEY=key
+```
+
 #### 1.登陆（注册）你的 OpenAI 账号，拿到对应的 key
 参数会用到 [gpt.go](./service/gpt.go) 当中
 
@@ -39,26 +66,8 @@
 ![](https://raw.githubusercontent.com/razertory/statics/main/staic/2.png)
 
 #### 3.配置应用服务器
-填写项目所在服务器的 host 以及 [main.go](./main.go) 的
-`/wechat/check`
+host + `/wechat/check`
 
-相关的参数参考[wechat.go](./service/wechat.go) 上方的参数
-```
-// 验证企业微信回调的token
-var token = "token"
-
-// 验证企业微信回调的key
-var encodingAesKey = "encodingAesKey"
-
-// 企业微信企业id 这个参数在企业微信后台的企业信息页
-var corpid = "corpid"
-
-// 企业微信secret 这个参数需要通过企业微信app发送
-var corpsecret = "corpsecret"
-
-// 上下文对话能力，默认是 3, 可以根据需要修改对话长度
-var weworkConversationSize = 3
-```
 注意，只有这些参数和企业微信`接收事件服务器`一致的时候，才能验证通过。代码中的 corpsecret 一定是通过企业微信获得的，首次获取一定是`企业微信app发送`
 ![](https://raw.githubusercontent.com/razertory/statics/main/staic/4.png)
 ![](https://raw.githubusercontent.com/razertory/statics/main/staic/5.png)
