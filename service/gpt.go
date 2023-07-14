@@ -38,7 +38,7 @@ func AskOnConversation(question, conversationId string, size int) (string, error
 		messages = data.([]gogpt.ChatCompletionMessage)
 	}
 	messages = append(messages, gogpt.ChatCompletionMessage{
-		Role:    "system",
+		Role:    "user",
 		Content: question,
 	})
 	fmt.Println(messages)

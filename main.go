@@ -5,20 +5,17 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
+	_ "github.com/joho/godotenv/autoload"
 )
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		panic("Error loading .env file")
-	}
 	r := gin.Default()
 	r.GET("/ping", Ping)
 	r.GET("/wechat/check", service.CheckWeixinSign)
 	r.POST("/wechat/check", service.TalkWeixin)
 	r.POST("/chat", service.Chat)
-	r.Run(":8888")
+	var listenAddr = os.Getenv("LISTEN_ADDR")
+	r.Run(listenAddr)
 }
 
 func Ping(c *gin.Context) {
