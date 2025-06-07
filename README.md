@@ -81,6 +81,9 @@ host + `/wechat/check`
 ![](https://raw.githubusercontent.com/razertory/statics/main/staic/6.png)
 
 
+[![Powered by DartNode](https://dartnode.com/branding/DN-Open-Source-sm.png)](https://dartnode.com "Powered by DartNode - Free VPS for Open Source")
+
+
 ## 其它
 1. 由于 OpenAI 对大陆 ip 的限制，阁下所用的服务器推荐在大陆以外，或者给服务器套代理
 2. 企业微信如果没有做企业备案，那么最多服务100人，这意味着阁下需要「拓展业务」，需要想办法做备案
